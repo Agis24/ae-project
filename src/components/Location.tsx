@@ -8,6 +8,7 @@ export default function Location() {
     return (
         <section id="location" className="py-20 px-4 container mx-auto">
             <h2 className="text-2xl font-semibold mb-4">Party Location</h2>
+            <p className="mb-4">Zogeria Beach, Spetses, Greece</p>
             <button
                 onClick={() => setShowMapParty(prev => !prev)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
@@ -25,7 +26,6 @@ export default function Location() {
                     />
                 </div>
             )}
-            <p className="mb-4">Zogeria Beach, Spetses, Greece</p>
             <p className="mb-4">
                 Zogeria Beach in Spetses is a beautiful shore boasting crystalline waters
                 with mesmerizing blue colors! The larger cove of Zogeria has lots of coarse
@@ -35,6 +35,7 @@ export default function Location() {
                 a refreshing swim!
             </p>
             <h2 className="text-2xl font-semibold mb-4">Ceremony Location</h2>
+            <p className="mb-4">Εκκλησάκι Ζωγεριάς</p>
             <button
                 onClick={() => setShowMapWedding(prev => !prev)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
