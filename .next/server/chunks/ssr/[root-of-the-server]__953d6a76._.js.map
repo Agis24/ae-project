@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 15, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/gbetsis/ae-site/src/pages/_app.tsx"],"sourcesContent":["import MenuRow from '@/components/menurow'\r\nimport type { AppProps } from 'next/app'\r\n\r\nexport default function MyApp({ Component, pageProps }: AppProps) {\r\n  return (\r\n    <>\r\n      <Navbar />\r\n      <Component {...pageProps} />\r\n    </>\r\n  )\r\n}"],"names":[],"mappings":";;;;;AAGe,SAAS,MAAM,EAAE,SAAS,EAAE,SAAS,EAAY;IAC9D,qBACE;;0BACE,qKAAC;;;;;0BACD,qKAAC;gBAAW,GAAG,SAAS;;;;;;;;AAG9B","debugId":null}}]
-}
