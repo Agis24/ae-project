@@ -4,5 +4,8 @@ const nextConfig: NextConfig = {
   output: "export",
 };
 
-module.exports = nextConfig
+module.exports = {
+   basePath: '/ae-project',
+  assetPrefix: '/ae-project',
+}
 export default nextConfig;
