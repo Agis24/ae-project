@@ -10,12 +10,12 @@ export default function EnterCode() {
   const handleNo = () => {
     setError(
       <>
-        Please check your email invitation. Contact us at{' '}
+        Please check your invitation. Contact us at{' '}
         <a
-          href="mailto:aristotelis@aristotelisbetsis.com"
+          href="mail@mail.com"
           className="text-blue-600 hover:underline"
         >
-          aristotelis@aristotelisbetsis.com
+          mail@mail.com
         </a>{' '}
         if you need help.
       </>

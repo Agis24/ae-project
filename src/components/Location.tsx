@@ -13,7 +13,7 @@ export default function Location() {
                 onClick={() => setShowMapParty(prev => !prev)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
             >
-                {showMapParty ? 'Hide Preview' : 'Preview'}
+                {showMapParty ? 'Hide Preview' : 'Preview Locarion'}
             </button>
             {showMapParty && (
                 <div className="mt-6">
@@ -40,7 +40,7 @@ export default function Location() {
                 onClick={() => setShowMapWedding(prev => !prev)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition"
             >
-                {showMapWedding ? 'Hide Preview' : 'Preview'}
+                {showMapWedding ? 'Hide Preview' : 'Preview Location'}
             </button>
             {showMapWedding && (
                 <div className="mt-6">

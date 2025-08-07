@@ -1,0 +1,16 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model RSVP {
+  id        Int      @id @default(autoincrement())
+  code      String
+  email     String
+  guests    String[]      // array of guest names
+  createdAt DateTime @default(now())
+}
