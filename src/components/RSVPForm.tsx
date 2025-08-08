@@ -74,158 +74,184 @@ export default function RSVPForm({
   }
 
   return (
-   <div className="min-h-screen w-full flex items-center justify-center bg-white">
-      <motion.div
-        className="relative w-full max-w-lg mx-4 my-8 overflow-y-auto"
-        initial="hidden"
-        animate="visible"
-        variants={cardVariants}
-        style={{ transformPerspective: 800, transformStyle: 'preserve-3d' }}
-      >
-        <div className="absolute top-0 left-0 w-full h-8 bg-white" style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }} />
-        <div className="relative bg-white/90 backdrop-blur-md pt-12 pb-8 px-8 rounded-b-3xl shadow-2xl">
-          <motion.h1 className="text-3xl font-extrabold text-center text-black mb-4" variants={fieldVariants}>
-            {title}
-          </motion.h1>
+  <div className="min-h-screen w-full flex items-start justify-center bg-white">
+    <motion.div
+      className="w-full max-w-md mx-4 mt-6"
+      initial="hidden"
+      animate="visible"
+      variants={cardVariants}
+      style={{ transformPerspective: 800, transformStyle: 'preserve-3d' }}
+    >
+      {/* Header card */}
+      <div className="bg-white rounded-2xl shadow-md p-6">
+        <motion.h1
+          className="font-serif text-3xl tracking-wide text-center text-black"
+          variants={fieldVariants}
+        >
+          {title}
+        </motion.h1>
+        <p className="text-center text-gray-500 text-sm mt-1">
+          Please respond by June 10
+        </p>
 
-          <motion.form onSubmit={handleSubmit} className="space-y-4" variants={fieldVariants}>
-            {/* Full Name(s) */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-700 font-bold">Your Full Name</label>
+        {/* thin divider */}
+        <div className="mx-auto my-5 h-12 w-px bg-gray-200" />
+
+        {/* optional contact line (match reference look) */}
+        <div className="text-center">
+          <p className="font-serif text-2xl">Contact</p>
+          <p className="text-gray-500 text-sm mt-1">
+            us at <span className="font-medium">6900000000</span> for any enquiries.
+          </p>
+        </div>
+      </div>
+
+      {/* Form card */}
+      <div className="bg-white rounded-2xl shadow-md p-6 mt-4">
+        <motion.form onSubmit={handleSubmit} className="space-y-5" variants={fieldVariants}>
+          {/* Full Name(s) */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-black">Your Full Name</label>
+            <motion.input
+              type="text"
+              value={you}
+              onChange={e => setYou(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+              variants={fieldVariants}
+            />
+          </div>
+
+          {allowPlusOne && (
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-semibold text-black">Plus-One Full Name (optional)</label>
               <motion.input
                 type="text"
-                value={you}
-                onChange={e => setYou(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+                value={plusOne}
+                onChange={e => setPlusOne(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
                 variants={fieldVariants}
               />
             </div>
+          )}
 
-            {allowPlusOne && (
-              <div className="flex flex-col space-y-2">
-                <label className="text-gray-700 font-bold">Plus-One Full Name (optional)</label>
-                <motion.input
-                  type="text"
-                  value={plusOne}
-                  onChange={e => setPlusOne(e.target.value)}
-                  className="w-full px-4 py-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                  variants={fieldVariants}
-                />
-              </div>
-            )}
-
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-700 font-bold">Your Email</label>
-              <motion.input
-                type="email"
-                value={email}
-                onChange={e => setEmail(e.target.value)}
-                required
-                className="w-full px-4 py-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                variants={fieldVariants}
-              />
-            </div>
-
-            {/* Phone Number */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-700 font-bold">Phone Number</label>
-              <div className="flex">
-                <select
-                  value={countryCode}
-                  onChange={e => setCountryCode(e.target.value)}
-                  className="px-3 py-3 border border-blue-300 rounded-l-lg bg-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="+30">🇬🇷 +30</option>
-                  <option value="+44">🇬🇧 +44</option>
-                  <option value="+1">🇺🇸 +1</option>
-                  {/* add more */}
-                </select>
-                <input
-                  type="tel"
-                  value={phone}
-                  onChange={e => setPhone(e.target.value)}
-                  placeholder="Your phone number"
-                  className="flex-1 px-4 py-3 border border-blue-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* Attendance */}
-            <motion.fieldset className="flex flex-col space-y-2" variants={fieldVariants}>
-              <legend className="text-gray-700 font-bold">Attending</legend>
-              {attendanceOptions.map(opt => (
-                <label key={opt} className="inline-flex items-center space-x-2 text-gray-800">
-                  <input
-                    type="radio"
-                    name="attendance"
-                    value={opt}
-                    checked={attendance === opt}
-                    onChange={() => setAttendance(opt)}
-                    className="text-black"
-                  />
-                  <span>
-                    {opt === 'both'
-                      ? 'Ceremony & Party'
-                      : opt === 'none'
-                      ? 'Not Attending'
-                      : opt.charAt(0).toUpperCase() + opt.slice(1)}
-                  </span>
-                </label>
-              ))}
-            </motion.fieldset>
-
-            {/* Diet checkboxes */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-700 font-bold">Select your dietary preferences</label>
-              {dietOptions.map(option => (
-                <label key={option} className="inline-flex items-center space-x-2 bg-white/80 p-2 rounded-md shadow-sm hover:bg-grey transition">
-                  <input
-                    type="checkbox"
-                    value={option}
-                    checked={diet.includes(option)}
-                    onChange={(e) => {
-                      if (e.target.checked) setDiet(prev => [...prev, option])
-                      else setDiet(prev => prev.filter(o => o !== option))
-                    }}
-                    className="text-black rounded"
-                  />
-                  <span>{option}</span>
-                </label>
-              ))}
-            </div>
-
-            {/* Message */}
-            <div className="flex flex-col space-y-2">
-              <label className="text-gray-700 font-bold">Message for the bride & groom (optional)</label>
-              <motion.textarea
-                value={message}
-                onChange={e => setMessage(e.target.value)}
-                rows={4}
-                className="w-full px-4 py-3 border border-black rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                variants={fieldVariants}
-              />
-            </div>
-
-            {/* Error */}
-            {error && (
-              <motion.p className="text-red text-center" variants={fieldVariants}>
-                {error}
-              </motion.p>
-            )}
-
-            {/* Submit */}
-            <motion.button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-black hover:bg-grey text-white font-semibold py-3 rounded-lg"
+          {/* Email */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-black">Email</label>
+            <motion.input
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
               variants={fieldVariants}
-            >
-              {loading ? 'Submitting…' : buttonText}
-            </motion.button>
-          </motion.form>
-        </div>
-      </motion.div>
-    </div>
-  )
+            />
+          </div>
+
+          {/* Phone Number */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-black">Phone Number</label>
+            <div className="flex">
+              <select
+                value={countryCode}
+                onChange={e => setCountryCode(e.target.value)}
+                className="px-3 py-3 border border-gray-300 rounded-l-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
+              >
+                <option value="+30">🇬🇷 +30</option>
+                <option value="+44">🇬🇧 +44</option>
+                <option value="+1">🇺🇸 +1</option>
+              </select>
+              <input
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="Your phone number"
+                className="flex-1 px-4 py-3 border border-l-0 border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-black"
+              />
+            </div>
+          </div>
+
+          {/* Attendance */}
+          <motion.fieldset className="flex flex-col gap-2" variants={fieldVariants}>
+            <legend className="text-sm font-semibold text-black">Will you be attending</legend>
+            {attendanceOptions.map(opt => (
+              <label key={opt} className="inline-flex items-center gap-2 text-gray-800">
+                <input
+                  type="radio"
+                  name="attendance"
+                  value={opt}
+                  checked={attendance === opt}
+                  onChange={() => setAttendance(opt)}
+                  className="accent-black"
+                />
+                <span>
+                  {opt === 'both'
+                    ? 'Ceremony & Party'
+                    : opt === 'none'
+                    ? 'No, unfortunately I cannot attend'
+                    : opt === 'ceremony'
+                    ? 'Wedding Ceremony'
+                    : 'Evening Banquet'}
+                </span>
+              </label>
+            ))}
+          </motion.fieldset>
+
+          {/* Diet checkboxes */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-black">Dietary Preferences (optional)</label>
+            {dietOptions.map(option => (
+              <label
+                key={option}
+                className="inline-flex items-center gap-2 bg-white p-2 rounded-md shadow-sm hover:bg-gray-50 transition"
+              >
+                <input
+                  type="checkbox"
+                  value={option}
+                  checked={diet.includes(option)}
+                  onChange={e => {
+                    if (e.target.checked) setDiet(prev => [...prev, option])
+                    else setDiet(prev => prev.filter(o => o !== option))
+                  }}
+                  className="accent-black rounded"
+                />
+                <span>{option}</span>
+              </label>
+            ))}
+          </div>
+
+          {/* Message */}
+          <div className="flex flex-col gap-2">
+            <label className="text-sm font-semibold text-black">Message for the couple (optional)</label>
+            <motion.textarea
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              rows={4}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+              variants={fieldVariants}
+            />
+          </div>
+
+          {/* Error */}
+          {error && (
+            <motion.p className="text-red-600 text-center text-sm" variants={fieldVariants}>
+              {error}
+            </motion.p>
+          )}
+
+          {/* Submit */}
+          <motion.button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-black hover:bg-neutral-900 text-white font-medium py-3 rounded-lg"
+            variants={fieldVariants}
+          >
+            {loading ? 'Submitting…' : buttonText}
+          </motion.button>
+        </motion.form>
+      </div>
+    </motion.div>
+  </div>
+)
+
 }
