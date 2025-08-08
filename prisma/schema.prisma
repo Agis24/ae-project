@@ -12,6 +12,7 @@ model RSVP {
   code       String
   email      String
   guests     String
+  phone      String
   attendance String   // non-nullable
   diet       String?  // optional
   message    String?  // optional

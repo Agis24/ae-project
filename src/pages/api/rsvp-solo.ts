@@ -11,9 +11,10 @@ export default async function handler(
 ) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { names, email, attendance, diet, message } = req.body as {
+  const { names, email, phone, attendance, diet, message } = req.body as {
     names?: unknown[]
     email?: unknown
+    phone?: unknown
     attendance?: unknown
     diet?: unknown
     message?: unknown
@@ -24,9 +25,10 @@ export default async function handler(
     names.length !== 1 ||
     names.some(n => typeof n !== 'string') ||
     typeof email !== 'string' ||
+    typeof phone !== 'string' ||
     typeof attendance !== 'string'
   ) {
-    return res.status(400).json({ error: 'Please provide exactly one name, email, and attendance.' })
+    return res.status(400).json({ error: 'Please provide exactly one name, email, phone, and attendance.' })
   }
 
   const name = (names[0] as string).trim()
@@ -38,6 +40,7 @@ export default async function handler(
         code: '', // remove if not in schema
         email: email.trim(),
         guests: name, // DB is string
+        phone: phone,
         attendance: attendance as 'ceremony' | 'party' | 'both' | 'none',
         diet: typeof diet === 'string' ? diet.trim() : null,
         message: typeof message === 'string' ? message.trim() : null,
