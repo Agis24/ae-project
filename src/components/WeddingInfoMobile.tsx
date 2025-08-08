@@ -9,6 +9,7 @@ type Props = {
   time: string
   locationName: string
   mapsQuery: string
+  dressCode?: string
   transportNote?: string
 }
 
@@ -18,6 +19,7 @@ export default function WeddingInfoMobile({
   time,
   locationName,
   mapsQuery,
+  dressCode,
   transportNote = 'Small boats will take guests to Zogeria Beach.',
 }: Props) {
   const [open, setOpen] = useState(false)
@@ -57,6 +59,13 @@ export default function WeddingInfoMobile({
           </a>
         </div>
       </div>
+
+      {dressCode && (
+        <div className="mt-3 bg-pink-50 border border-pink-200 rounded-md p-3">
+          <h2 className="text-sm font-semibold text-pink-800">Dress Code</h2>
+          <p className="text-sm text-pink-700">{dressCode}</p>
+        </div>
+      )}
 
       {/* Transport collapsible */}
       <div className="mt-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-md">
