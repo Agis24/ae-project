@@ -4,12 +4,12 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, CalendarDays, Clock, Ship } from 'lucide-react'
 
 type Props = {
-  couple: string            // e.g. "Alex & Eleni"
-  date: string              // e.g. "Sat, Sep 20, 2025"
-  time: string              // e.g. "6:00 PM"
-  locationName: string      // "Zogeria Beach, Spetses"
-  mapsQuery: string         // "Zogeria Beach, Spetses"
-  transportNote?: string    // short line shown collapsed
+  couple: string
+  date: string
+  time: string
+  locationName: string
+  mapsQuery: string
+  transportNote?: string
 }
 
 export default function WeddingInfoMobile({
