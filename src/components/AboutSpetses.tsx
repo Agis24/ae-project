@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
-
 export default function AboutSpetses() {
   return (
     <section id="about-spetses" className="py-20 px-4 container mx-auto">

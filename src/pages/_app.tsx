@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter()
-  const hideMenuOn = ['/enter-code']
+  const hideMenuOn = ['/enter-code', '/rsvp', '/rsvp-plusone', '/thank-you', '/thank-you-plusone']
 
   return (
     <>

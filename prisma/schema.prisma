@@ -8,9 +8,12 @@ generator client {
 }
 
 model RSVP {
-  id        Int      @id @default(autoincrement())
-  code      String
-  email     String
-  guests    String[]      // array of guest names
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  code       String
+  email      String
+  guests     String
+  attendance String   // non-nullable
+  diet       String?  // optional
+  message    String?  // optional
+  createdAt  DateTime @default(now())
 }

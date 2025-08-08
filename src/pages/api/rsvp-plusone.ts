@@ -1,65 +1,56 @@
 // src/pages/api/rsvp-plusone.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { PrismaClient } from '@prisma/client'
-
+import { PrismaClient, Prisma } from '@prisma/client'
 const prisma = new PrismaClient()
 
-type Response = { ok: true; created: number } | { error: string }
+type PlusOneResponse = { ok: true; created: number } | { error: string }
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Response>
+  res: NextApiResponse<PlusOneResponse>
 ) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' })
-  }
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
 
-  const { names, email } = req.body as {
-    names?: unknown
+  const { names, email, attendance, diet, message } = req.body as {
+    names?: unknown[]
     email?: unknown
+    attendance?: unknown
+    diet?: unknown
+    message?: unknown
   }
 
   if (
     !Array.isArray(names) ||
     names.some(n => typeof n !== 'string') ||
-    typeof email !== 'string'
+    typeof email !== 'string' ||
+    typeof attendance !== 'string'
   ) {
-    return res
-      .status(400)
-      .json({ error: 'Please provide at least your name and your email.' })
+    return res.status(400).json({ error: 'Please provide names, email, and attendance.' })
   }
 
-  // Clean up names
-  const cleanNames = (names as string[])
-    .map(n => n.trim())
-    .filter(n => n.length > 0)
-
+  const cleanNames = (names as string[]).map(n => n.trim()).filter(Boolean)
   if (cleanNames.length === 0) {
-    return res
-      .status(400)
-      .json({ error: 'At least one name is required.' })
+    return res.status(400).json({ error: 'At least one guest name is required.' })
   }
 
   try {
-    // Create one row per guest
-    const records = cleanNames.map(name => ({
-      code: '',        // if you still have a code field
-      email: email.trim(),
-      guests: [name],
+    const records: Prisma.RSVPCreateManyInput[] = cleanNames.map(name => ({
+      code: '', // remove if not in schema
+      email: (email as string).trim(),
+      guests: name, // DB is string
+      attendance: attendance as 'ceremony' | 'party' | 'both' | 'none',
+      diet: typeof diet === 'string' ? (diet as string).trim() : null,
+      message: typeof message === 'string' ? (message as string).trim() : null,
     }))
 
-    // Bulk insert
     const result = await prisma.rSVP.createMany({
       data: records,
-      skipDuplicates: true, // optional
+      skipDuplicates: true,
     })
 
-    // result.count is number of inserted rows
     return res.status(200).json({ ok: true, created: result.count })
-  } catch (err: unknown) {
+  } catch (err) {
     console.error('Prisma error on +1 RSVP:', err)
     return res.status(500).json({ error: 'Failed to create RSVP records.' })
   }
 }
- 

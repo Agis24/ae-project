@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "public"."RSVP" ALTER COLUMN "guests" SET NOT NULL,
+ALTER COLUMN "guests" SET DATA TYPE TEXT;
