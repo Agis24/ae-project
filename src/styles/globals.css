@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+/* Optional: unified input look
+.form-input {
+  @apply w-full px-4 py-3 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-black;
+}
+.form-label {
+  @apply text-sm font-semibold text-ink;
+}
+.checkbox-row {
+  @apply flex items-center gap-2 py-2;
+} */
+
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
