@@ -1,11 +1,19 @@
+import Image from "next/image";
+
 export default function Details() {
   return (
-    <section className="text-center py-20 px-4 font-lichtner">
+    <section className="text-center py-8 px-4 font-[var(--font-segoe)]">
       {/* Main Title */}
-      <h1 className="title text-5xl md:text-6xl font-light tracking-wider">
-        DETAILS
-      </h1>
-
+      <section className="text-center">
+        <Image
+          src="/Details.png"
+          alt="Details"
+          width={600}
+          height={200}
+          className="mx-auto h-auto w-[50%] md:w-[35%] lg:w-[25%]"
+          priority
+        />
+      </section>
       {/* WEDDING LOCATION */}
       <h2 className="mt-10 text-lg md:text-xl uppercase tracking-widest font-semibold ">
         Wedding Location
@@ -99,8 +107,8 @@ export default function Details() {
         few options for our guests, and by mentioning our wedding when booking, you
         may receive better rates.
       </p>
-      <div className="mt-4 max-w-3xl mx-auto text-left">
-        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg leading-relaxed ">
+      <div className="mt-4 max-w-3xl mx-auto text-center">
+        <ul className="list-none space-y-2 text-base md:text-lg leading-relaxed">
           <li>
             <a
               href="https://www.hotelroumani.gr/"
@@ -202,7 +210,8 @@ export default function Details() {
             </a> ***** (Distance 200m)
           </li>
         </ul>
-        <p className="mt-3 text-sm ">
+
+        <p className="mt-3 text-sm">
           *Star rating<br />
           Distance refers to the distance from the Port of Dapia
         </p>
@@ -218,8 +227,8 @@ export default function Details() {
         or ATV, there are many rental companies on the island. Here are a few we
         recommend:
       </p>
-      <div className="mt-3 max-w-3xl mx-auto text-left">
-        <ul className="list-disc pl-6 space-y-2 text-base md:text-lg leading-relaxed ">
+      <div className="mt-3 max-w-3xl mx-auto text-center">
+        <ul className="list-none pl-6 space-y-2 text-base md:text-lg leading-relaxed ">
           <li>
             <a href="https://www.stanathiotis.gr/" target="_blank" rel="noopener noreferrer" className="underline">Stanathiotis Moto</a>
           </li>

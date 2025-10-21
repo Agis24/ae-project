@@ -21,6 +21,10 @@
   font-family: 'Lichtner', serif;
 }
 
+:root {
+  --font-segoe: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+}
+
 h1.title {
   font-family: 'Playfair Display', serif;
   letter-spacing: 0.05em;

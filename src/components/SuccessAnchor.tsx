@@ -7,6 +7,5 @@ type SuccessAnchorProps = {
 };
 
 export default function SuccessAnchor({ id, className }: SuccessAnchorProps) {
-  // Renders a plain div with the given id to be used as a portal target
   return <div id={id} className={className} />;
 }

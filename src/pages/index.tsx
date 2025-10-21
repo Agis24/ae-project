@@ -4,53 +4,72 @@ import QandA from "@/components/Q&A"
 import WeddingInfoTop from "@/components/WeddingInfoTop"
 import { useRouter } from "next/router"
 import CheckRSVP from "@/components/CheckRSVP"
-import { useMemo } from "react"
+import { useEffect, useState } from "react"
 import SuccessAnchor from "@/components/SuccessAnchor"
 
-const PLUS_ONE_TOKENS = new Set(["plus1", "plusone", "plus-one"]);
+const PLUS_ONE_TOKENS = "2p";
 const SOLO_ANCHOR_ID = "rsvp-success-anchor";
 const PLUSONE_ANCHOR_ID = "rsvp-plusone-success-anchor";
 
+function getQueryString(q: Record<string, unknown>, key: string): string {
+  const v = q[key];
+  if (Array.isArray(v)) return String(v[0] ?? "");
+  return v == null ? "" : String(v);
+}
+
 function Divider() {
-  return <div className="my-8 border-t border-gray-300 w-full opacity-60" />;
+  return <div className="h-32 w-[2px] bg-neutral-800 mx-auto my-10" />;
 }
 
 export default function Home() {
   const router = useRouter();
   const { isReady, query } = router;
 
-  const isPlusOne = useMemo(() => {
-    if (!isReady) return null; // query not ready yet
-    const invite = typeof query.invite === "string" ? query.invite.toLowerCase() : "";
-    const hasBooleanFlag = "plusone" in query || "plusOne" in query;
-    return hasBooleanFlag || PLUS_ONE_TOKENS.has(invite);
-  }, [isReady, query]);
+  // always call hooks, on every render, in the same order
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
-  if (isPlusOne === null) return null; // or a tiny loader to avoid flicker
+   const invite = getQueryString(query, "invite").toLowerCase().trim();
+
+  const keyHasToken = Object.keys(query).some(
+    (k) => k.toLowerCase().trim() === PLUS_ONE_TOKENS
+  );
+
+  const valueHasToken = invite === PLUS_ONE_TOKENS;
+
+  const isPlusOne = isReady && (keyHasToken || valueHasToken);
+
+  if (!mounted) return null;
 
   const successPortalId = isPlusOne ? PLUSONE_ANCHOR_ID : SOLO_ANCHOR_ID;
 
-
   return (
-    <main style={{ maxWidth: 600, margin: 'auto', padding: 20 }}>
-      <WeddingInfoTop/>
-      <DateLocationTime 
-        date="Saturday, 19 September 2026"
-        locationMain="Saint George Church, Zogeria Beach"
-        locationSub="Spetses, Greece"
-        time="18:00"
-        className="italic font-lichtner"
-      />
-      <Divider />
-      <Details/>
-      <Divider />
-      <QandA/>
-      <Divider />
-      {/* Anchors (place exactly where you want success to appear) */}
-      <SuccessAnchor id={SOLO_ANCHOR_ID} className="my-8" />
-      <SuccessAnchor id={PLUSONE_ANCHOR_ID} className="my-8" />
-      {/* Form renders here; success will be portaled above into the chosen anchor */}
-      <CheckRSVP isPlusOne={!!isPlusOne} successPortalId={successPortalId} />
+    <main style={{ maxWidth: 600, margin: "auto", padding: 20 }}>
+      {!mounted ? (
+        <div style={{ height: 200 }} />
+      ) : (
+        <>
+          <WeddingInfoTop />
+          <DateLocationTime 
+            date="Saturday, 19 September 2026"
+            locationMain="Saint George Church, Zogeria Beach"
+            locationSub="Spetses, Greece"
+            time="18:00"
+            className="italic font-[var(--font-segoe)]"
+          />
+          <Divider />
+          <Details/>
+          <Divider />
+          <QandA/>
+          <Divider />
+          <SuccessAnchor id={SOLO_ANCHOR_ID} className="my-8" />
+          <SuccessAnchor id={PLUSONE_ANCHOR_ID} className="my-8" />
+          <CheckRSVP
+            isPlusOne={isPlusOne}
+            successPortalId={successPortalId}
+          />
+        </>
+      )}
     </main>
   )
 }

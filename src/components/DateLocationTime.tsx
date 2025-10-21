@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 export default function DateLocationTime({
     date = "Saturday, 19 September 2026",
@@ -15,16 +16,23 @@ export default function DateLocationTime({
     }) {
         return (
             <section id="date" className={`mx-auto max-w-3xl px-4 py-10 text-center ${className}`}>
-                <p className="text-base md:text-lg italic leading-relaxed font-[Georgia]">
-                    {date}
-                </p>
-                <p className="mt-4 text-xl md:text-2xl italic leading-relaxed font-[Georgia]">
+                <div className="text-center py-4">
+                    <Image
+                      src="/AE_date.png"
+                      alt={date}
+                      width={600}
+                      height={200}
+                      className="mx-auto h-auto w-[70%] md:w-[50%] lg:w-[40%]"
+                      priority
+                    />
+                </div>
+                <p className="mt-4 text-xl md:text-2xl italic leading-relaxed font-[var(--font-segoe)]">
                     {locationMain}
                 </p>
-                <p className="mt-1 text-lg md:text-xl italic leading-relaxed text-neutral-700 font-[Georgia]">
+                <p className="mt-1 text-lg md:text-xl italic leading-relaxed text-neutral-700 font-[var(--font-segoe)]">
                     {locationSub}
                 </p>
-                <p className="mt-6 text-base md:text-lg italic font-[Georgia]"><span className="not-italic text-neutral-800">Time:</span> 
+                <p className="mt-6 text-base md:text-lg italic font-[var(--font-segoe)]"><span className="not-italic text-neutral-800">Time:</span> 
                     {time}
                 </p>
             </section>

@@ -1,6 +1,14 @@
 // components/RSVPForm.tsx
-import { FormEvent, useState } from 'react'
+import { FormEvent, useMemo, useState } from 'react'
 import { motion, Variants } from 'framer-motion'
+import Image from 'next/image'
+import countryCallingCodes from 'country-calling-code';
+
+interface CountryCallingCodeItem {
+  countryCodes: string[];
+  isoCode2: string;
+  isoCode3: string;
+}
 
 export type RSVPFormProps = {
   allowPlusOne?: boolean
@@ -11,28 +19,43 @@ export type RSVPFormProps = {
     email: string,
     phone: string,
     options: {
-      attendance: 'ceremony' | 'party' | 'both' | 'none'
-      diet: string[]           // FE keeps diet as array
+      attendance: 'yes' | 'no'
+      diet: string
       message: string
     }
   ) => Promise<void>
 }
 
-const cardVariants: Variants = {
-  hidden: { rotateX: -90, scale: 0.8, opacity: 0 },
-  visible: {
-    rotateX: 0,
-    scale: 1,
-    opacity: 1,
-    transition: { duration: 0.8, when: 'beforeChildren', staggerChildren: 0.1 },
-  },
-}
 const fieldVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
 }
-const attendanceOptions = ['ceremony', 'party', 'both', 'none'] as const
-const dietOptions = ['Vegan', 'Gluten-Free', 'Dairy-Free', 'Nut-Free', 'Vegetarian'] as const
+
+const attendanceOptions = ['yes', 'no'] as const;
+
+function isoToFlagEmoji(isoCode: string): string {
+  return isoCode
+    .toUpperCase()
+    .replace(/./g, char =>
+      String.fromCodePoint(127397 + char.charCodeAt(0))
+    );
+}
+
+type CountryDial = {
+  code: string;
+  isoCode: string;
+};
+
+const normalizeCode = (c: string) => (c.startsWith('+') ? c : `+${c}`);
+
+const FAVORITES: CountryDial[] = [
+  { code: '+30', isoCode: 'GR' },
+  { code: '+44', isoCode: 'GB' },
+  { code: '+1', isoCode: 'US' },
+  { code: '+39', isoCode: 'IT' },
+];
+
+const favoriteSet = new Set(FAVORITES.map(f => f.code));
 
 export default function RSVPForm({
   allowPlusOne = false,
@@ -43,13 +66,14 @@ export default function RSVPForm({
   const [you, setYou] = useState('')
   const [plusOne, setPlusOne] = useState('')
   const [email, setEmail] = useState('')
-  const [attendance, setAttendance] = useState<(typeof attendanceOptions)[number]>('both')
-  const [diet, setDiet] = useState<string[]>([])
+  const [attendance, setAttendance] =
+    useState<(typeof attendanceOptions)[number]>('yes')
+  const [diet, setDiet] = useState('');
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [countryCode, setCountryCode] = useState('+30')
-  const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState('');
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -57,15 +81,14 @@ export default function RSVPForm({
     setLoading(true)
 
     const names = [you.trim(), allowPlusOne ? plusOne.trim() : ''].filter(Boolean)
-    const fullPhone = `${countryCode}${phone.trim()}`
+    const fullPhone = `${countryCode}${(phone ?? '').trim()}`;
 
     try {
-      await onSubmit(
-        names,
-        email.trim(),
-        fullPhone,
-        { attendance, diet, message: message.trim() }
-      )
+      await onSubmit(names, email.trim(), fullPhone, {
+        attendance,
+        diet,
+        message: message.trim(),
+      })
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Submission failed.')
     } finally {
@@ -73,185 +96,202 @@ export default function RSVPForm({
     }
   }
 
+  const otherCountries = useMemo<CountryDial[]>(() => {
+    const byCode = new Map<string, string>();
+
+    for (const e of countryCallingCodes as CountryCallingCodeItem[]) {
+      const iso: string | undefined = e.isoCode2;
+      if (!iso) continue;
+
+      const codes: string[] = Array.isArray(e.countryCodes) ? e.countryCodes : [];
+      for (const raw of codes) {
+        const code = normalizeCode(String(raw));
+        if (!favoriteSet.has(code) && !byCode.has(code)) {
+          byCode.set(code, iso);
+        }
+      }
+    }
+
+    const arr = Array.from(byCode, ([code, isoCode]) => ({ code, isoCode }));
+    arr.sort((a, b) => a.isoCode.localeCompare(b.isoCode));
+    return arr;
+  }, []);
+  
+
   return (
-  <div className="min-h-screen w-full flex items-start justify-center bg-white">
-    <motion.div
-      className="w-full max-w-md mx-4 mt-6"
-      initial="hidden"
-      animate="visible"
-      variants={cardVariants}
-      style={{ transformPerspective: 800, transformStyle: 'preserve-3d' }}
-    >
-      {/* Header card */}
-      <div className="bg-white rounded-2xl shadow-md p-6">
-        <motion.h1
-          className="font-serif text-3xl tracking-wide text-center text-black"
-          variants={fieldVariants}
-        >
-          {title}
-        </motion.h1>
-        <p className="text-center text-gray-500 text-sm mt-1">
-          Please respond by June 10
+    <div className="w-full max-w-md mx-auto px-4 mt-6">
+      {/* Header (no card) */}
+      <motion.div initial="hidden" animate="visible" variants={fieldVariants}>
+        <section className="text-center py-6">
+          <Image
+            src="/RSVP.png"
+            alt={title}
+            width={600}
+            height={200}
+            className="mx-auto h-auto w-[40%] md:w-[30%] lg:w-[20%]"
+            priority
+          />
+        </section>
+        <p className="text-center text-neutral-500 text-sm mt-1">
+          Please respond the soonest
         </p>
+      </motion.div>
 
-        {/* thin divider */}
-        <div className="mx-auto my-5 h-12 w-px bg-gray-200" />
-
-        {/* optional contact line (match reference look) */}
-        <div className="text-center">
-          <p className="font-serif text-2xl">Contact</p>
-          <p className="text-gray-500 text-sm mt-1">
-            us at <span className="font-medium">6900000000</span> for any enquiries.
-          </p>
+      {/* Form (no card) */}
+      <motion.form
+        onSubmit={handleSubmit}
+        className="space-y-5 mt-6"
+        initial="hidden"
+        animate="visible"
+        variants={fieldVariants}
+      >
+        {/* Full Name(s) */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-neutral-900">
+            {allowPlusOne ? 'Full Name (Person 1)' : 'Your Full Name'}
+          </label>
+          <motion.input
+            type="text"
+            value={you}
+            onChange={(e) => setYou(e.target.value)}
+            required
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900"
+            variants={fieldVariants}
+          />
         </div>
-      </div>
 
-      {/* Form card */}
-      <div className="bg-white rounded-2xl shadow-md p-6 mt-4">
-        <motion.form onSubmit={handleSubmit} className="space-y-5" variants={fieldVariants}>
-          {/* Full Name(s) */}
+        {allowPlusOne && (
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-black">Your Full Name</label>
+            <label className="text-sm font-semibold text-neutral-900">
+              Full Name (Person 2)
+            </label>
             <motion.input
               type="text"
-              value={you}
-              onChange={e => setYou(e.target.value)}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
+              value={plusOne}
+              onChange={(e) => setPlusOne(e.target.value)}
+              className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900"
               variants={fieldVariants}
             />
           </div>
+        )}
 
-          {allowPlusOne && (
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-semibold text-black">Plus-One Full Name (optional)</label>
-              <motion.input
-                type="text"
-                value={plusOne}
-                onChange={e => setPlusOne(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-                variants={fieldVariants}
-              />
-            </div>
-          )}
-
-          {/* Email */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-black">Email</label>
-            <motion.input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              variants={fieldVariants}
-            />
-          </div>
-
-          {/* Phone Number */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-black">Phone Number</label>
-            <div className="flex">
-              <select
-                value={countryCode}
-                onChange={e => setCountryCode(e.target.value)}
-                className="px-3 py-3 border border-gray-300 rounded-l-lg bg-white focus:outline-none focus:ring-2 focus:ring-black"
-              >
-                <option value="+30">🇬🇷 +30</option>
-                <option value="+44">🇬🇧 +44</option>
-                <option value="+1">🇺🇸 +1</option>
-              </select>
-              <input
-                type="tel"
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-                placeholder="Your phone number"
-                className="flex-1 px-4 py-3 border border-l-0 border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-black"
-              />
-            </div>
-          </div>
-
-          {/* Attendance */}
-          <motion.fieldset className="flex flex-col gap-2" variants={fieldVariants}>
-            <legend className="text-sm font-semibold text-black">Will you be attending</legend>
-            {attendanceOptions.map(opt => (
-              <label key={opt} className="inline-flex items-center gap-2 text-gray-800">
-                <input
-                  type="radio"
-                  name="attendance"
-                  value={opt}
-                  checked={attendance === opt}
-                  onChange={() => setAttendance(opt)}
-                  className="accent-black"
-                />
-                <span>
-                  {opt === 'both'
-                    ? 'Ceremony & Party'
-                    : opt === 'none'
-                    ? 'No, unfortunately I cannot attend'
-                    : opt === 'ceremony'
-                    ? 'Wedding Ceremony'
-                    : 'Evening Banquet'}
-                </span>
-              </label>
-            ))}
-          </motion.fieldset>
-
-          {/* Diet checkboxes */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-black">Dietary Preferences (optional)</label>
-            {dietOptions.map(option => (
-              <label
-                key={option}
-                className="inline-flex items-center gap-2 bg-white p-2 rounded-md shadow-sm hover:bg-gray-50 transition"
-              >
-                <input
-                  type="checkbox"
-                  value={option}
-                  checked={diet.includes(option)}
-                  onChange={e => {
-                    if (e.target.checked) setDiet(prev => [...prev, option])
-                    else setDiet(prev => prev.filter(o => o !== option))
-                  }}
-                  className="accent-black rounded"
-                />
-                <span>{option}</span>
-              </label>
-            ))}
-          </div>
-
-          {/* Message */}
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-semibold text-black">Message for the couple (optional)</label>
-            <motion.textarea
-              value={message}
-              onChange={e => setMessage(e.target.value)}
-              rows={4}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black"
-              variants={fieldVariants}
-            />
-          </div>
-
-          {/* Error */}
-          {error && (
-            <motion.p className="text-red-600 text-center text-sm" variants={fieldVariants}>
-              {error}
-            </motion.p>
-          )}
-
-          {/* Submit */}
-          <motion.button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-black hover:bg-neutral-900 text-white font-medium py-3 rounded-lg"
+        {/* Email */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-neutral-900">Email</label>
+          <motion.input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900"
             variants={fieldVariants}
-          >
-            {loading ? 'Submitting…' : buttonText}
-          </motion.button>
-        </motion.form>
-      </div>
-    </motion.div>
-  </div>
-)
+          />
+        </div>
 
+        {/* Phone Number */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-black">Phone Number</label>
+          <div className="flex">
+            <select
+              value={countryCode}
+              onChange={(e) => setCountryCode(e.target.value)}
+              className="min-w-[7rem] max-w-[8rem] text-center px-2 py-3 border border-gray-300 rounded-l-lg bg-white focus:outline-none focus:ring-2 focus:ring-black shrink-0"
+            >
+              {FAVORITES.map((c) => (
+                <option key={`fav-${c.code}`} value={c.code}>
+                  {isoToFlagEmoji(c.isoCode)} {c.isoCode} {c.code}
+                </option>
+              ))}
+
+              <option disabled>──────────</option>
+
+              {otherCountries.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {isoToFlagEmoji(c.isoCode)} {c.isoCode} {c.code}
+                </option>
+              ))}
+            </select>
+
+            <input
+              type="tel"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              placeholder="Your phone number"
+              className="flex-1 px-4 py-3 border border-l-0 border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-black"
+            />
+          </div>
+        </div>
+
+        {/* Attendance */}
+       <motion.fieldset className="flex flex-col gap-2" variants={fieldVariants}>
+          <legend className="text-sm py-1.5 font-semibold text-neutral-900">
+            Will you be attending?
+          </legend>
+          {attendanceOptions.map((opt) => (
+            <label key={opt} className="inline-flex items-center gap-2 text-neutral-800">
+              <input
+                type="radio"
+                name="attendance"
+                value={opt}
+                checked={attendance === opt}
+                onChange={() => setAttendance(opt)}
+                className="accent-neutral-900"
+              />
+              <span>
+                {opt === 'yes'
+                  ? 'Yes, I will attend'
+                  : 'No, unfortunately I will not attend'}
+              </span>
+            </label>
+          ))}
+        </motion.fieldset>
+
+        {/* Diet Message */}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-neutral-900">
+            Dietary Preferences (optional)
+          </label>
+          <motion.textarea
+            value={diet}
+            onChange={(e) => setDiet(e.target.value)}
+            placeholder="e.g. Allergies, vegetarian, no nuts, gluten-free..."
+            rows={3}
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900"
+            variants={fieldVariants}
+          />
+        </div>
+
+        {/* Message for couple*/}
+        <div className="flex flex-col gap-2">
+          <label className="text-sm font-semibold text-neutral-900">
+            Message for the couple (optional)
+          </label>
+          <motion.textarea
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            rows={4}
+            className="w-full px-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900"
+            variants={fieldVariants}
+          />
+        </div>
+
+        {/* Error */}
+        {error && (
+          <motion.p className="text-red-600 text-center text-sm" variants={fieldVariants}>
+            {error}
+          </motion.p>
+        )}
+
+        {/* Submit */}
+        <motion.button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-neutral-900 hover:bg-black text-white font-medium py-3 rounded-lg"
+          variants={fieldVariants}
+        >
+          {loading ? 'Submitting…' : buttonText}
+        </motion.button>
+      </motion.form>
+    </div>
+  )
 }

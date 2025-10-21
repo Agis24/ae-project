@@ -14,7 +14,7 @@ const EVENT = {
 
 type RSVPFormData = {
   attendance: string;
-  diet: string[];
+  diet: string;
   message: string;
 };
 
@@ -139,7 +139,7 @@ Confirmation: ${confirmation ?? "-"}`;
                 email: emailValue,
                 phone,
                 attendance,
-                diet: diet.join(", "),
+                diet: diet,
                 message,
               }),
             });

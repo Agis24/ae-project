@@ -5,7 +5,7 @@ import RSVPForm from "@/components/RSVPForm";
 
 type RSVPFormData = {
   attendance: string;
-  diet: string[];
+  diet: string;
   message: string;
 };
 
@@ -127,7 +127,7 @@ Confirmation: ${confirmation ?? "-"}`;
       {!submitted ? (
         <RSVPForm
           allowPlusOne
-          title="RSVP (+1)"
+          title="RSVP"
           buttonText="Submit RSVP"
           onSubmit={async (
             names: string[],
@@ -143,7 +143,7 @@ Confirmation: ${confirmation ?? "-"}`;
                 email: emailValue,
                 phone,
                 attendance,
-                diet: diet.join(", "),
+                diet: diet,
                 message,
               }),
             });
