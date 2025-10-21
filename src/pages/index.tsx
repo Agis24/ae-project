@@ -6,6 +6,8 @@ import { useRouter } from "next/router"
 import CheckRSVP from "@/components/CheckRSVP"
 import { useEffect, useState } from "react"
 import SuccessAnchor from "@/components/SuccessAnchor"
+import { getLang, Lang } from '@/i18n';
+import LangSelect from '@/components/LangSelect';
 
 const PLUS_ONE_TOKENS = "2p";
 const SOLO_ANCHOR_ID = "rsvp-success-anchor";
@@ -24,6 +26,7 @@ function Divider() {
 export default function Home() {
   const router = useRouter();
   const { isReady, query } = router;
+  const lang = getLang(typeof query.lang === 'string' ? query.lang : undefined);
 
   // always call hooks, on every render, in the same order
   const [mounted, setMounted] = useState(false);
@@ -49,6 +52,10 @@ export default function Home() {
         <div style={{ height: 200 }} />
       ) : (
         <>
+           <div className="sticky top-0 z-50 flex justify-end px-5 py-2">
+            <LangSelect value={lang} />
+          </div>
+
           <WeddingInfoTop />
           <DateLocationTime 
             date="Saturday, 19 September 2026"

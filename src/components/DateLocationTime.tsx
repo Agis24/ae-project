@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { t, Lang } from "@/i18n";
 
 export default function DateLocationTime({
     date = "Saturday, 19 September 2026",
@@ -7,13 +8,16 @@ export default function DateLocationTime({
     locationSub = "Spetses, Greece",
     time = "18:00",
     className = "",
+    lang = 'en',
     }: {
         date?: string;
         locationMain?: string;
         locationSub?: string;
         time?: string;
         className?: string;
+        lang?: Lang;
     }) {
+        const msg = t[lang].dateLocationTime
         return (
             <section id="date" className={`mx-auto max-w-3xl px-4 py-10 text-center ${className}`}>
                 <div className="text-center py-4">
