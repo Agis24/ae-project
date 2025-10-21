@@ -14,6 +14,8 @@ pnpm dev
 bun dev
 # or
 npm run build && npm start
+# or
+npx next dev --hostname 0.0.0.0 --port 3000
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
