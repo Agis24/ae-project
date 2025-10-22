@@ -6,7 +6,7 @@ import { useRouter } from "next/router"
 import CheckRSVP from "@/components/CheckRSVP"
 import { useEffect, useState } from "react"
 import SuccessAnchor from "@/components/SuccessAnchor"
-import { getLang, Lang } from '@/i18n';
+import { getLang } from '@/i18n';
 import LangSelect from '@/components/LangSelect';
 
 const PLUS_ONE_TOKENS = "2p";
@@ -20,7 +20,7 @@ function getQueryString(q: Record<string, unknown>, key: string): string {
 }
 
 function Divider() {
-  return <div className="h-32 w-[2px] bg-neutral-800 mx-auto my-10" />;
+  return <div className="h-32 w-px bg-neutral-800 mx-auto my-10" />;
 }
 
 export default function Home() {

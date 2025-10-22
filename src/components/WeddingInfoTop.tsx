@@ -6,9 +6,9 @@ export default function WeddingInfoTop() {
       <Image
         src="/Aristotelis_and_Elisavet.png"
         alt="Aristotelis and Elisavet"
-        width={600}
-        height={200}
-        className="mx-auto h-auto w-[70%] md:w-[50%] lg:w-[40%]"
+        width={800}
+        height={300}
+        className="mx-auto h-auto w-[90%] md:w-[70%] lg:w-[60%]"
         priority
       />
     </section>

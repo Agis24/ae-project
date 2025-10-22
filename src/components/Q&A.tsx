@@ -57,30 +57,31 @@ const faqs = [
 
 export default function QandA() {
   return (
-    <section className="text-center px-4 font-[var(--font-segoe)]">
+    <section className="text-center px-4 font-[var(--font-segoe)] text-sm md:text-base">
       <section className="text-center py-8">
         <Image
           src="/QandA.png"
           alt="Q & A"
           width={600}
           height={200}
-          className="mx-auto h-auto w-[40%] md:w-[30%] lg:w-[20%]"
+          className="mx-auto h-auto w-[50%] md:w-[35%] lg:w-[25%]"
           priority
         />
       </section>
+
       <div className="max-w-3xl mx-auto text-left divide-y divide-neutral-300">
         {faqs.map((item, index) => (
           <details
             key={index}
-            className="group py-5 cursor-pointer transition-all duration-200"
+            className="group py-4 cursor-pointer transition-all duration-200"
           >
-            <summary className="flex justify-between items-center text-lg md:text-xl uppercase tracking-widest font-semibold">
+            <summary className="flex justify-between items-center text-base md:text-lg uppercase tracking-wide font-semibold">
               <span>{item.q}</span>
-              <span className="text-2xl transform group-open:rotate-45 transition-transform duration-200">
+              <span className="text-xl transform group-open:rotate-45 transition-transform duration-200">
                 +
               </span>
             </summary>
-            <div className="mt-3 whitespace-pre-line text-base md:text-lg leading-relaxed">
+            <div className="mt-3 whitespace-pre-line text-sm md:text-base leading-relaxed">
               {item.a}
             </div>
           </details>

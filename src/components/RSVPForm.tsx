@@ -53,6 +53,7 @@ const FAVORITES: CountryDial[] = [
   { code: '+44', isoCode: 'GB' },
   { code: '+1', isoCode: 'US' },
   { code: '+39', isoCode: 'IT' },
+  {code: '+33', isoCode: 'FR'},
 ];
 
 const favoriteSet = new Set(FAVORITES.map(f => f.code));
@@ -133,7 +134,7 @@ export default function RSVPForm({
           />
         </section>
         <p className="text-center text-neutral-500 text-sm mt-1">
-          Please respond the soonest
+          Please respond at your earliest convienience
         </p>
       </motion.div>
 
@@ -239,7 +240,7 @@ export default function RSVPForm({
               />
               <span>
                 {opt === 'yes'
-                  ? 'Yes, I will attend'
+                  ? 'Yes, I will be there'
                   : 'No, unfortunately I will not attend'}
               </span>
             </label>
