@@ -19,7 +19,6 @@ type RSVPFormData = {
 };
 
 type Props = {
-  /** Optional portal container id to render success UI elsewhere */
   successPortalId?: string;
   onSubmitted?: (payload: { confirmation?: string | null; names: string[]; email: string }) => void;
 };
@@ -30,7 +29,6 @@ export default function RSVP({ successPortalId, onSubmitted }: Props) {
   const [guestNames, setGuestNames] = useState<string[]>([]);
   const [portalEl, setPortalEl] = useState<HTMLElement | null>(null);
 
-  // ✅ SSR-safe: only query document on client
   useEffect(() => {
     if (successPortalId) {
       setPortalEl(document.getElementById(successPortalId));
@@ -155,7 +153,6 @@ Confirmation: ${confirmation ?? "-"}`;
 
             onSubmitted?.({ confirmation: data.confirmationCode ?? null, names, email: emailValue });
 
-            // Scroll to the portal anchor if present
             if (successPortalId) {
               requestAnimationFrame(() => {
                 document.getElementById(successPortalId)?.scrollIntoView({ behavior: "smooth", block: "center" });

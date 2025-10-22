@@ -28,7 +28,6 @@ export default function Home() {
   const { isReady, query } = router;
   const lang = getLang(typeof query.lang === 'string' ? query.lang : undefined);
 
-  // always call hooks, on every render, in the same order
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 

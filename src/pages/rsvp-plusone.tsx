@@ -14,11 +14,9 @@ type Props = {
   onSubmitted?: (payload: { confirmation?: string | null; names: string[]; email: string }) => void;
 };
 
-// Reuse the same event details as the solo RSVP
 const EVENT = {
   title: "Elisavet & Aristotelis – Wedding",
   location: "Zogeria Beach, Spetses",
-  // 19 Sep 2026, 13:00 local (Greece, UTC+3) -> 10:00Z
   start: new Date("2026-09-19T10:00:00Z"),
   end: new Date("2026-09-19T18:00:00Z"),
   transport: "Small boats from Dapia to Zogeria (arrive 20–30 min early).",
