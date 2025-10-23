@@ -1,7 +1,10 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
+
+const { i18n } = require('./next-i18next.config');
 
 const nextConfig: NextConfig = {
+  allowedDevOrigins: ['IP'],
 };
 
-module.exports = nextConfig
+module.exports = { nextConfig, i18n };
 export default nextConfig;

@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Trans, useTranslation } from 'next-i18next';
-import { Italic } from "lucide-react";
 
 export default function Details() {
   const { t } = useTranslation();

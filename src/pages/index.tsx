@@ -7,7 +7,7 @@ import CheckRSVP from "@/components/CheckRSVP"
 import { useEffect, useState } from "react"
 import SuccessAnchor from "@/components/SuccessAnchor"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useTranslation } from "next-i18next";
+import { useTranslation } from "next-i18next"; // eslint-disable-line @typescript-eslint/no-unused-vars
 import LangSelect from "@/components/LangSelect";
 import { GetStaticProps } from "next"
 

@@ -1,7 +1,7 @@
 // src/components/LangSelect.tsx
 import { useRouter } from "next/router";
 
-export default function LangSelect({ value }: { value: string }) {
+export default function LangSelect({ value }: { value: string }) { // eslint-disable-line @typescript-eslint/no-unused-vars
   const router = useRouter();
   const currentLocale = router.locale || 'en';
 
