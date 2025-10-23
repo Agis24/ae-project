@@ -1,10 +1,11 @@
 import Image from "next/image";
+import banner from '@/assets/Aristotelis_and_Elisavet.png';
 
 export default function WeddingInfoTop() {
   return (
     <section className="text-center py-8">
       <Image
-        src="/Aristotelis_and_Elisavet.png"
+        src={banner}
         alt="Aristotelis and Elisavet"
         width={800}
         height={300}
