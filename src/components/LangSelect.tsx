@@ -3,12 +3,12 @@ import { useRouter } from "next/router";
 
 export default function LangSelect({ value }: { value: string }) {
   const router = useRouter();
-  const currentLocale = router.locale || 'en';
+  value = router.locale || 'en';
 
   return (
     <label className="inline-flex items-center gap-2 text-sm">
       <select
-        value={currentLocale}
+        value={value}
         onChange={async (e) => {
           const lang = e.target.value;
           await router.push(router.asPath, router.asPath, { locale: lang });
