@@ -3,7 +3,7 @@ import { FormEvent, useMemo, useState } from 'react'
 import { motion, Variants } from 'framer-motion'
 import Image from 'next/image'
 import countryCallingCodes from 'country-calling-code';
-import { withPrefix } from '@/lib/prefix';
+import banner from '@/assets/RSVP.png';
 
 interface CountryCallingCodeItem {
   countryCodes: string[];
@@ -126,7 +126,7 @@ export default function RSVPForm({
       <motion.div initial="hidden" animate="visible" variants={fieldVariants}>
         <section className="text-center py-6">
           <Image
-            src={withPrefix("/RSVP.png")}
+            src={banner}
             alt={title}
             width={600}
             height={200}

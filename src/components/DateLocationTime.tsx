@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
-import { withPrefix } from "@/lib/prefix";
+import banner from '@/assets/AE_date.png';
 
 export default function DateLocationTime({
     date = "",
@@ -22,7 +22,7 @@ export default function DateLocationTime({
             <section id="date" className={`mx-auto max-w-3xl px-4 py-10 text-center ${className}`}>
                 <div className="text-center py-4">
                   <Image
-                    src={withPrefix("/AE_date.png")}
+                    src={banner}
                     alt={date}
                     width={800}
                     height={250}
