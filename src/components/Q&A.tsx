@@ -56,13 +56,13 @@ export default function QandA() {
 
   return (
     <section className="text-center px-4 font-[var(--font-segoe)] text-sm md:text-base">
-      <section className="text-center py-8">
+      <section className="text-center py-6">
         <Image
           src={banner}
           alt="Q & A"
           width={600}
           height={200}
-          className="mx-auto h-auto w-[50%] md:w-[35%] lg:w-[25%]"
+          className="mx-auto h-auto w-[40%] md:w-[30%] lg:w-[20%]"
           priority
         />
       </section>

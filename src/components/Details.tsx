@@ -116,82 +116,96 @@ export default function Details() {
       </ul>
 
       {/* WHERE TO STAY */}
-      <h2 className="mt-12 text-base md:text-lg uppercase tracking-widest font-semibold">
+      <h2 className="mt-12 text-base md:text-lg uppercase tracking-widest font-semibold text-center">
+        Where to Stay
+      </h2>
+      <div className="mt-4 max-w-3xl mx-auto text-center">
+        <p className="leading-relaxed mb-3">
+          {t('details.whereToStayText')}
+        </p>
+                
         <button
           onClick={() => setStayOpen(!stayOpen)}
-          className="flex items-center mx-auto gap-2 hover:opacity-80 transition"
+          aria-expanded={stayOpen}
+          aria-controls="stays-list"
+          className="inline-flex items-center gap-2 mx-auto px-4 py-2 border rounded hover:opacity-80 transition"
         >
-          Where to Stay
-          <span>{stayOpen ? "▲" : "▼"}</span>
+          {stayOpen ? 'Hide recommended stays' : 'Show recommended stays'}
+          <span>{stayOpen ? '▲' : '▼'}</span>
         </button>
-      </h2>
-      {stayOpen && (
-        <div className="mt-4 max-w-3xl mx-auto text-center animate-fadeIn">
-          <p className="leading-relaxed mb-3">
-            {t('details.whereToStayText')}
-          </p>
-          <ul className="list-none space-y-2 leading-relaxed">
-            {[
-              ["Hotel Roumani", "https://www.hotelroumani.gr/", "100m", "***"],
-              ["Klimis Hotel", "https://www.klimishotel.gr/", "200m", "***"],
-              ["Niriides Hotel", "https://niriides-spetses.gr/", "300m", "***"],
-              ["Armata Boutique Hotel", "https://www.armatahotel.gr/", "300m", "***"],
-              ["Kastro Hotel", "https://www.kastrohotel-spetses.gr/", "500m", "***"],
-              ["Nissia Traditional Residences", "https://www.nissia.gr/", "550m", "****"],
-              ["Mare Monte Luxury Suites", "https://www.maremonteboutiquehotel.com/", "500m", "****"],
-              ["Orloff Resort", "https://www.orloffresort.com/", "1200m", "****"],
-              ["Zoe’s Club Hotel", "https://www.zoesclub.gr/", "300m", "****"],
-              ["Poseidonion Grand Hotel", "https://poseidonion.com/", "200m", "*****"],
-            ].map(([name, link, distance, stars]) => (
-              <li key={name}>
-                <a href={link} target="_blank" rel="noopener noreferrer" className="underline">
-                  {name}
-                </a>{" "}
-                {stars} (Distance {distance})
-              </li>
-            ))}
-          </ul>
-          <p className="mt-3 text-xs">
-            {t('details.whereToStayStarRating')}<br />
-            {t('details.whereToStayFooter')}
-          </p>
-        </div>
-      )}
-
+                
+        {stayOpen && (
+          <div id="stays-list" className="mt-4 animate-fadeIn">
+            <ul className="list-none space-y-2 leading-relaxed">
+              {[
+                ['Hotel Roumani', 'https://www.hotelroumani.gr/', '100m', '***'],
+                ['Klimis Hotel', 'https://www.klimishotel.gr/', '200m', '***'],
+                ['Niriides Hotel', 'https://niriides-spetses.gr/', '300m', '***'],
+                ['Armata Boutique Hotel', 'https://www.armatahotel.gr/', '300m', '***'],
+                ['Kastro Hotel', 'https://www.kastrohotel-spetses.gr/', '500m', '***'],
+                ['Nissia Traditional Residences', 'https://www.nissia.gr/', '550m', '****'],
+                ['Mare Monte Luxury Suites', 'https://www.maremonteboutiquehotel.com/', '500m', '****'],
+                ['Orloff Resort', 'https://www.orloffresort.com/', '1200m', '****'],
+                ['Zoe’s Club Hotel', 'https://www.zoesclub.gr/', '300m', '****'],
+                ['Poseidonion Grand Hotel', 'https://poseidonion.com/', '200m', '*****'],
+              ].map(([name, link, distance, stars]) => (
+                <li key={name}>
+                  <a href={link} target="_blank" rel="noopener noreferrer" className="underline">
+                    {name}
+                  </a>{' '}
+                  {stars} (Distance {distance})
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs">
+              {t('details.whereToStayStarRating')}<br />
+              {t('details.whereToStayFooter')}
+            </p>
+          </div>
+        )}
+      </div>
+      
       {/* GETTING AROUND */}
-      <h2 className="mt-12 text-base md:text-lg uppercase tracking-widest font-semibold">
+      <h2 className="mt-12 text-base md:text-lg uppercase tracking-widest font-semibold text-center">
+        Getting Around Spetses
+      </h2>
+      <div className="mt-4 max-w-3xl mx-auto text-center">
+        <p className="leading-relaxed uppercase mb-3">
+          {t('details.gettingAroundSpetsesText')}
+        </p>
+      
         <button
           onClick={() => setGettingOpen(!gettingOpen)}
-          className="flex items-center mx-auto gap-2 hover:opacity-80 transition"
+          aria-expanded={gettingOpen}
+          aria-controls="rentals-list"
+          className="inline-flex items-center gap-2 mx-auto px-4 py-2 border rounded hover:opacity-80 transition"
         >
-          Getting Around Spetses
-          <span>{gettingOpen ? "▲" : "▼"}</span>
+          {gettingOpen ? 'Hide recommended rentals' : 'Show recommended rentals'}
+          <span>{gettingOpen ? '▲' : '▼'}</span>
         </button>
-      </h2>
-      {gettingOpen && (
-        <div className="mt-4 max-w-3xl mx-auto text-center animate-fadeIn">
-          <p className="leading-relaxed mb-3">
-            {t('details.gettingAroundSpetsesText')}
-          </p>
-          <ul className="list-none space-y-2 leading-relaxed">
-            <li>
-              <a href="https://www.stanathiotis.gr/" target="_blank" rel="noopener noreferrer" className="underline">
-                Stanathiotis Moto
-              </a>
-            </li>
-            <li>
-              <a href="https://maps.app.goo.gl/NjHKHKo9Q6oVapn1A" target="_blank" rel="noopener noreferrer" className="underline">
-                Rent a moto Thymaras
-              </a>
-            </li>
-            <li>
-              <a href="https://spetses-moto.gr/" target="_blank" rel="noopener noreferrer" className="underline">
-                Rentals Spetsesmoto
-              </a>
-            </li>
-          </ul>
-        </div>
-      )}
+      
+        {gettingOpen && (
+          <div id="rentals-list" className="mt-4 animate-fadeIn">
+            <ul className="list-none space-y-2 leading-relaxed">
+              <li>
+                <a href="https://www.stanathiotis.gr/" target="_blank" rel="noopener noreferrer" className="underline">
+                  Stanathiotis Moto
+                </a>
+              </li>
+              <li>
+                <a href="https://maps.app.goo.gl/NjHKHKo9Q6oVapn1A" target="_blank" rel="noopener noreferrer" className="underline">
+                  Rent a moto Thymaras
+                </a>
+              </li>
+              <li>
+                <a href="https://spetses-moto.gr/" target="_blank" rel="noopener noreferrer" className="underline">
+                  Rentals Spetsesmoto
+                </a>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   );
 }

@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500');
-@import url('https://fonts.cdnfonts.com/css/signatura-monoline');
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500&display=swap');
 @import "tailwindcss";
 
@@ -28,12 +27,6 @@
 h1.title {
   font-family: 'Playfair Display', serif;
   letter-spacing: 0.05em;
-  font-weight: 400;
-}
-
-span.script {
-  font-family: 'Signatura Monoline', cursive;
-  font-size: 1.5rem;
   font-weight: 400;
 }
 

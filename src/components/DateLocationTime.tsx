@@ -30,14 +30,17 @@ export default function DateLocationTime({
                     priority
                   />
                 </div>
-                <p className="mt-4 text-xl md:text-2xl italic leading-relaxed font-[var(--font-segoe)]">
-                    {t('dateLocationTime.locationMain')}
+                <p className="mt-4 text-base md:text-lg italic leading-relaxed font-[var(--font-segoe)]">
+                  {t('dateLocationTime.locationMain')}
                 </p>
-                <p className="mt-1 text-lg md:text-xl italic leading-relaxed text-neutral-700 font-[var(--font-segoe)]">
-                    {t('dateLocationTime.locationSub')}
+                <p className="mt-1 text-base md:text-lg italic leading-relaxed text-neutral-700 font-[var(--font-segoe)]">
+                  {t('dateLocationTime.locationSub')}
                 </p>
-                <p className="mt-6 text-base md:text-lg italic font-[var(--font-segoe)]"><span className="not-italic text-neutral-800">{t('dateLocationTime.timeLabel')}</span> 
-                    {time}
+                <p className="mt-6 text-base md:text-lg italic font-[var(--font-segoe)]">
+                  <span className="italic text-neutral-800">
+                    {t('dateLocationTime.timeLabel')}
+                  </span>{' '}
+                  <span className="italic">{time}</span>
                 </p>
             </section>
         );
