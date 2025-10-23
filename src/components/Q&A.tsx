@@ -2,6 +2,7 @@
 import React from "react";
 import Image from "next/image";
 import { useTranslation } from "next-i18next";
+import { withPrefix } from "@/lib/prefix";
 export default function QandA() {
   const { t } = useTranslation();
 
@@ -56,7 +57,7 @@ export default function QandA() {
     <section className="text-center px-4 font-[var(--font-segoe)] text-sm md:text-base">
       <section className="text-center py-8">
         <Image
-          src="/QandA.png"
+          src={withPrefix("/QandA.png")}
           alt="Q & A"
           width={600}
           height={200}

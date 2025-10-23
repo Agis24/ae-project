@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Trans, useTranslation } from 'next-i18next';
+import { withPrefix } from "@/lib/prefix";
 
 export default function Details() {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ export default function Details() {
       {/* Main Title */}
       <section className="text-center">
         <Image
-          src="/Details.png"
+          src={withPrefix("/Details.png")}
           alt="Details"
           width={600}
           height={200}
