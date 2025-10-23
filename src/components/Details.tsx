@@ -123,7 +123,7 @@ export default function Details() {
         <p className="leading-relaxed mb-3">
           {t('details.whereToStayText')}
         </p>
-                
+
         <button
           onClick={() => setStayOpen(!stayOpen)}
           aria-expanded={stayOpen}
@@ -133,7 +133,7 @@ export default function Details() {
           {stayOpen ? 'Hide recommended stays' : 'Show recommended stays'}
           <span>{stayOpen ? '▲' : '▼'}</span>
         </button>
-                
+
         {stayOpen && (
           <div id="stays-list" className="mt-4 animate-fadeIn">
             <ul className="list-none space-y-2 leading-relaxed">
@@ -170,7 +170,7 @@ export default function Details() {
         Getting Around Spetses
       </h2>
       <div className="mt-4 max-w-3xl mx-auto text-center">
-        <p className="leading-relaxed uppercase mb-3">
+        <p className="leading-relaxed mb-3">
           {t('details.gettingAroundSpetsesText')}
         </p>
       
