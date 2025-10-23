@@ -6,8 +6,10 @@ import { useRouter } from "next/router"
 import CheckRSVP from "@/components/CheckRSVP"
 import { useEffect, useState } from "react"
 import SuccessAnchor from "@/components/SuccessAnchor"
-import { getLang } from '@/i18n';
-import LangSelect from '@/components/LangSelect';
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { useTranslation } from "next-i18next";
+import LangSelect from "@/components/LangSelect";
+import { GetStaticProps } from "next"
 
 const PLUS_ONE_TOKENS = "2p";
 const SOLO_ANCHOR_ID = "rsvp-success-anchor";
@@ -26,12 +28,12 @@ function Divider() {
 export default function Home() {
   const router = useRouter();
   const { isReady, query } = router;
-  const lang = getLang(typeof query.lang === 'string' ? query.lang : undefined);
+  // const { t, i18n } = useTranslation("common");
 
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-   const invite = getQueryString(query, "invite").toLowerCase().trim();
+  const invite = getQueryString(query, "invite").toLowerCase().trim();
 
   const keyHasToken = Object.keys(query).some(
     (k) => k.toLowerCase().trim() === PLUS_ONE_TOKENS
@@ -52,20 +54,14 @@ export default function Home() {
       ) : (
         <>
            <div className="sticky top-0 z-50 flex justify-end px-5 py-2">
-            <LangSelect value={lang} />
+            <LangSelect value={router.locale ?? "el"} />
           </div>
 
           <WeddingInfoTop />
-          <DateLocationTime 
-            date="Saturday, 19 September 2026"
-            locationMain="Saint George Church, Zogeria Beach"
-            locationSub="Spetses, Greece"
-            time="18:00"
-            className="italic font-[var(--font-segoe)]"
-          />
+          <DateLocationTime className="italic font-[var(--font-segoe)]" />
           <Divider />
           <Details/>
-          <Divider />
+          <Divider /> 
           <QandA/>
           <Divider />
           <SuccessAnchor id={SOLO_ANCHOR_ID} className="my-8" />
@@ -79,3 +75,11 @@ export default function Home() {
     </main>
   )
 }
+
+export const getStaticProps: GetStaticProps = async ({ locale = "en" }) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
+};

@@ -1,8 +1,11 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { Trans, useTranslation } from 'next-i18next';
+import { Italic } from "lucide-react";
 
 export default function Details() {
+  const { t } = useTranslation();
   const [stayOpen, setStayOpen] = useState(false);
   const [gettingOpen, setGettingOpen] = useState(false);
 
@@ -25,9 +28,9 @@ export default function Details() {
         Wedding Location
       </h2>
       <p className="mt-4 max-w-3xl mx-auto leading-relaxed">
-        The ceremony will be held at Saint George’s Church in Zogeria Beach.
+        {t('details.weddingLocation1')}
         <br />
-        The reception will follow at Zogeria Beach.
+        {t('details.weddingLocation2')}
       </p>
 
       {/* TRAVEL */}
@@ -35,14 +38,20 @@ export default function Details() {
         Travel
       </h2>
       <p className="mt-3 max-w-3xl mx-auto leading-relaxed">
-        From Athens to Spetses, Dapia Port
+        {t('details.travelHeader1')}
       </p>
       <ul className="mt-4 max-w-3xl mx-auto text-left list-disc pl-6 space-y-2 leading-relaxed">
         <li>
-          <strong className="not-italic">By boat (about 2 hours):</strong> Take a ferry directly from Piraeus port to Spetses (Dapia port).
+          <Trans 
+            i18nKey="details.travelOption1"
+            components={{ strong: <strong className="not-italic" /> }}
+          />
         </li>
         <li>
-          <strong className="not-italic">By car (about 3.5 hours):</strong> Drive from Athens to Kosta port. You’ll find two parking areas right by the port where you can securely leave your car. From there, continue to Spetses (Dapia port) by sea taxi or ferry.
+          <Trans 
+            i18nKey="details.travelOption2"
+            components={{ strong: <strong className="not-italic" /> }}
+          />
         </li>
       </ul>
 
@@ -51,9 +60,16 @@ export default function Details() {
         Dress Code
       </h2>
       <p className="mt-4 max-w-3xl mx-auto leading-relaxed">
-        Beach Formal Attire – elegant but adapted for a seaside setting. It combines the polish of formal wear with the lightness and comfort needed for seaside settings and sandy paths. For comfort on the sand and coastal path, flats or low heels are recommended; stilettos and high heels are not suitable.
+        <Trans
+          i18nKey="details.dressCode1"
+          components={{
+            bold: <span className="font-bold" />,
+            italic: <span className="italic" />,
+            br: <br />
+          }}
+        />
         <br />
-        We recommend bringing a shawl or wrap (for women) and a blazer (for men), for the evening sea breeze.
+        {t('details.dressCode2')}
       </p>
 
       {/* FROM DAPIA TO WEDDING LOCATION */}
@@ -61,25 +77,41 @@ export default function Details() {
         From Dapia to Zogeria
       </h2>
       <p className="mt-4 max-w-3xl mx-auto leading-relaxed">
-        Traditional boats... Details will follow soon.
+        {t('details.toWeddingLocation1')}
       </p>
-      {/* <ul className="mt-3 max-w-3xl mx-auto text-left list-disc pl-6 space-y-2 leading-relaxed">
-        <li>
-          <strong className="not-italic">Boat departure:</strong> 17:15
-        </li>
-        <li>
-          <strong className="not-italic">Return boats:</strong> Available after the celebration to bring you back to Spetses port and through the night (managed by our planner on site).
-        </li>
-      </ul> */}
       <p className="mt-4 max-w-3xl mx-auto leading-relaxed">
-        Other ways to reach Zogeria Beach:
+        <Trans
+          i18nKey="details.return1"
+          components={{
+            bold: <span className="font-bold" />,
+            italic: <span className="italic" />,
+            br: <br />
+          }}
+        />
+      </p>
+      <p className="mt-4 max-w-3xl mx-auto leading-relaxed">
+        {t('details.toZogeriaOptionsLabel')}
       </p>
       <ul className="mt-3 max-w-3xl mx-auto text-left list-disc pl-6 space-y-2 leading-relaxed">
         <li>
-          <strong className="not-italic">By sea taxi:</strong> Head to Dapia port and hop on the next available sea taxi.
+          <Trans 
+            i18nKey="details.toZogeriaOption1"
+            components={{
+              bold: <span className="font-bold" />,
+              italic: <span className="italic" />,
+              br: <br />
+            }}
+          />
         </li>
         <li>
-          <strong className="not-italic">By scooter or motorbike:</strong> Ride to Zogeria Beach, then enjoy a short 7-minute walk along the trail to St. George’s Church.
+          <Trans 
+            i18nKey="details.toZogeriaOption2"
+            components={{
+              bold: <span className="font-bold" />,
+              italic: <span className="italic" />,
+              br: <br />
+            }}
+          />
         </li>
       </ul>
 
@@ -96,7 +128,7 @@ export default function Details() {
       {stayOpen && (
         <div className="mt-4 max-w-3xl mx-auto text-center animate-fadeIn">
           <p className="leading-relaxed mb-3">
-            Spetses offers a wonderful variety of places to stay, from seaside hotels to traditional guesthouses. By mentioning our wedding when booking, you may receive better rates.
+            {t('details.whereToStayText')}
           </p>
           <ul className="list-none space-y-2 leading-relaxed">
             {[
@@ -120,8 +152,8 @@ export default function Details() {
             ))}
           </ul>
           <p className="mt-3 text-xs">
-            *Star rating<br />
-            Distance refers to the distance from the Port of Dapia
+            {t('details.whereToStayStarRating')}<br />
+            {t('details.whereToStayFooter')}
           </p>
         </div>
       )}
@@ -139,7 +171,7 @@ export default function Details() {
       {gettingOpen && (
         <div className="mt-4 max-w-3xl mx-auto text-center animate-fadeIn">
           <p className="leading-relaxed mb-3">
-            On Spetses, there are no cars, so getting around is easy by foot, bicycle, scooter, ATV, or even horse-drawn carriage. If you’d like to rent a scooter or ATV, here are a few recommendations:
+            {t('details.gettingAroundSpetsesText')}
           </p>
           <ul className="list-none space-y-2 leading-relaxed">
             <li>

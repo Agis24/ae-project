@@ -1,23 +1,22 @@
 import React from "react";
 import Image from "next/image";
-import { t, Lang } from "@/i18n";
+import { useTranslation } from "next-i18next";
 
 export default function DateLocationTime({
-    date = "Saturday, 19 September 2026",
-    locationMain = "Saint George Church, Zogeria Beach",
-    locationSub = "Spetses, Greece",
+    date = "",
     time = "18:00",
-    className = "",
-    lang = 'en',
+    className,
     }: {
         date?: string;
         locationMain?: string;
         locationSub?: string;
         time?: string;
         className?: string;
-        lang?: Lang;
     }) {
-        const msg = t[lang].dateLocationTime
+
+        const { t, i18n } = useTranslation('common');
+        console.log('Current locale:', i18n.language);
+
         return (
             <section id="date" className={`mx-auto max-w-3xl px-4 py-10 text-center ${className}`}>
                 <div className="text-center py-4">
@@ -31,12 +30,12 @@ export default function DateLocationTime({
                   />
                 </div>
                 <p className="mt-4 text-xl md:text-2xl italic leading-relaxed font-[var(--font-segoe)]">
-                    {locationMain}
+                    {t('dateLocationTime.locationMain')}
                 </p>
                 <p className="mt-1 text-lg md:text-xl italic leading-relaxed text-neutral-700 font-[var(--font-segoe)]">
-                    {locationSub}
+                    {t('dateLocationTime.locationSub')}
                 </p>
-                <p className="mt-6 text-base md:text-lg italic font-[var(--font-segoe)]"><span className="not-italic text-neutral-800">Time: </span> 
+                <p className="mt-6 text-base md:text-lg italic font-[var(--font-segoe)]"><span className="not-italic text-neutral-800">{t('dateLocationTime.timeLabel')}</span> 
                     {time}
                 </p>
             </section>
